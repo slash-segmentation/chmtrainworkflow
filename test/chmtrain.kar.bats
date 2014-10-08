@@ -72,9 +72,10 @@ skipIfKeplerNotInPath() {
   [ "$status" -eq 0 ]
   [ "${lines[0]}" == "CHM Train workflow" ]
   [ "${lines[1]}" == "Job Name: jobname" ]
-  [ "${lines[2]}" == "User:  user" ] 
+  [ "${lines[2]}" == "User: user" ] 
   [ "${lines[3]}" == "Workflow Job Id: jobid" ]
-  [ "${lines[6]}" == "Train options:  -s 2 -l 2" ] 
+  [ "${lines[5]}" == "Create CHM Train Job Script: /home/churas/panfish/cws_vizwall/cws/bin/panfishCHM/createCHMTrainJob.sh" ]
+  [ "${lines[8]}" == "Train options:  -s 2 -l 2" ] 
 }
 
 #
@@ -121,9 +122,9 @@ skipIfKeplerNotInPath() {
   [ "$status" -eq 0 ]
   [ "${lines[0]}" == "CHM Train workflow" ]
   [ "${lines[1]}" == "Job Name: foo" ]
-  [ "${lines[2]}" == "User:  johnny" ]
+  [ "${lines[2]}" == "User: johnny" ]
   [ "${lines[3]}" == "Workflow Job Id: 43" ]
-  [ "${lines[6]}" == "Train options:  -s 3 -l 4" ]
+  [ "${lines[8]}" == "Train options:  -s 3 -l 4" ]
 
 }
 
@@ -179,7 +180,7 @@ skipIfKeplerNotInPath() {
 
   echo "0,,,/bin/echo" > "$THE_TMP/bin/createchmtrain.tasks"
   # Run kepler.sh with no other arguments
-  run $KEPLER_SH -runwf -redirectgui $THE_TMP -trainingdata /bar -CWS_user johnny -CWS_jobname foo -CWS_jobid 43 -Stage 3 -Level 4 -createCHMTrainJob $THE_TMP/bin/createchmtrain -CWS_outputdir $THE_TMP $CHM_TRAIN_WF
+  run $KEPLER_SH -runwf -redirectgui $THE_TMP -CWS_notifyemail 'bob@bob.com' -trainingdata /bar -CWS_user johnny -CWS_jobname foo -CWS_jobid 43 -Stage 3 -Level 4 -createCHMTrainJob $THE_TMP/bin/createchmtrain -CWS_outputdir $THE_TMP $CHM_TRAIN_WF
 
   # Check exit code
   [ "$status" -eq 0 ]
@@ -189,8 +190,14 @@ skipIfKeplerNotInPath() {
 
   echo "Output from kepler.  Should only see this if something below fails ${lines[@]}"
 
-  # Verify we got a workflow failed txt file
+  # Verify we didnt get a workflow failed txt file
   [ ! -e "$THE_TMP/$WORKFLOW_FAILED_TXT" ]
   
+  # Check output of README.txt file
+  [ -s "$THE_TMP/$README_TXT" ]
+  run cat "$THE_TMP/$README_TXT"
+  [ "$status" -eq 0 ]
+  [ "${lines[4]}" == "Notify Email: bob@bob.com" ]
+
 } 
  

@@ -9,7 +9,7 @@ setup() {
   export THE_TMP="${BATS_TMPDIR}/"`uuidgen`
   /bin/mkdir -p $THE_TMP
   /bin/cp -a "${BATS_TEST_DIRNAME}/bin" "${THE_TMP}/."
-
+  /bin/rm -rf ~/.kepler
 }
 
 teardown() {

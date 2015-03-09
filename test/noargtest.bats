@@ -40,7 +40,7 @@ load test_helper
   [ "${lines[1]}" == "Job Name: jobname" ]
   [ "${lines[2]}" == "User: user" ] 
   [ "${lines[3]}" == "Workflow Job Id: jobid" ]
-  [ "${lines[5]}" == "Create CHM Train Job Script: /home/churas/panfish/cws_vizwall/cws/bin/panfishCHM/createCHMTrainJob.sh" ]
+  [ "${lines[5]}" == "Create CHM Train Job Script: /sharktopus/megashark/cws/bin/panfishCHM/createCHMTrainJob.sh" ]
   [ "${lines[8]}" == "Train options:  -s 2 -l 2" ] 
 }
 
